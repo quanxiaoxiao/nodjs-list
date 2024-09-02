@@ -101,6 +101,7 @@ export const update = (arr) => {
       ...currentItem,
       ...dataUpdated,
     };
+    assert(typeof itemNext._id === 'string' && itemNext._id === currentItem._id);
     if (index === 0) {
       return [
         itemNext,
