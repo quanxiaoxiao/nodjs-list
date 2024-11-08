@@ -6,6 +6,7 @@ import {
   findIndex,
   remove,
   update,
+  findIndexWithInsert,
 } from './index.mjs';
 
 test('utils > list > sort', () => {
@@ -195,5 +196,32 @@ test('utils > list > update', () => {
         ret[0],
       );
     }
+  }
+});
+
+test('findIndexWithInsert', () => {
+  let arr = [];
+  let index = findIndexWithInsert(arr, '8');
+  assert.equal(index, 0);
+  arr.push({
+    _id: '7',
+  });
+  index = findIndexWithInsert(arr, '7');
+
+  const count = 1000;
+
+  for (let i = 0; i < count; i++) {
+    const _id = `${Math.floor(Math.random() * 1000)}`;
+    index = findIndexWithInsert(arr, _id);
+    arr.splice(index, 0, { _id });
+    assert.deepEqual(arr, sort(arr));
+  }
+  assert.equal(count + 1, arr.length);
+  const find = findIndex(arr);
+  for (let i = 0; i < arr.length; i++) {
+    const d = arr[i];
+    const indexOfFind = find(d._id);
+    const indexOfInsert = findIndexWithInsert(arr, d._id);
+    assert.equal(indexOfFind, indexOfInsert);
   }
 });

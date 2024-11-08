@@ -51,6 +51,35 @@ export const findIndex = (arr) => {
   };
 };
 
+export const findIndexWithInsert = (arr, _id) => {
+  assert(Array.isArray(arr));
+  const len = arr.length;
+  assert(typeof _id === 'string');
+  if (len === 0) {
+    return 0;
+  }
+  let left = 0;
+  let right = len;
+  let mid = Math.floor((right - left) / 2);
+  while (left < right) {
+    const index = mid + left;
+    const d = arr[index];
+    if (d._id === _id) {
+      return index;
+    }
+    if (_id > d._id) {
+      left = index + 1;
+    } else {
+      right = index;
+    }
+    if (left < right) {
+      mid = Math.floor((right - left) / 2);
+    }
+  }
+  return left;
+};
+
+
 export const remove = (arr) => {
   assert(Array.isArray(arr));
   const len = arr.length;
