@@ -79,7 +79,6 @@ export const findIndexWithInsert = (arr, _id) => {
   return left;
 };
 
-
 export const remove = (arr) => {
   assert(Array.isArray(arr));
   const len = arr.length;

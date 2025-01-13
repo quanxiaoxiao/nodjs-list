@@ -1,12 +1,13 @@
 import assert from 'node:assert';
 import crypto from 'node:crypto';
 import test from 'node:test';
+
 import {
-  sort,
   findIndex,
-  remove,
-  update,
   findIndexWithInsert,
+  remove,
+  sort,
+  update,
 } from './index.mjs';
 
 test('utils > list > sort', () => {
