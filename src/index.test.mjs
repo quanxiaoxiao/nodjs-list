@@ -144,7 +144,7 @@ test('utils > list > update', () => {
       name: `${i}`,
     });
   }
-  let list = sort(arr);
+  const list = sort(arr);
   for (let i = 0; i < size; i++) {
     const d = list[i];
     const ret = update(list)(d._id, (pre) => {
@@ -201,7 +201,7 @@ test('utils > list > update', () => {
 });
 
 test('findIndexWithInsert', () => {
-  let arr = [];
+  const arr = [];
   let index = findIndexWithInsert(arr, '8');
   assert.equal(index, 0);
   arr.push({
