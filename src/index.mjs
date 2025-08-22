@@ -1,12 +1,11 @@
 import assert from 'node:assert';
 
 export const sort = (arr) => {
-  assert(Array.isArray(arr));
-  const len = arr.length;
-  if (len === 0) {
+  assert(Array.isArray(arr), 'Expected an array');
+  if (arr.length === 0) {
     return [];
   }
-  assert(typeof arr[0]._id === 'string');
+  assert(typeof arr[0]._id === 'string', 'Expected objects with string _id property');
   return [...arr].sort((a, b) => {
     if (a._id === b._id) {
       return 0;
@@ -19,10 +18,10 @@ export const sort = (arr) => {
 };
 
 export const findIndex = (arr) => {
-  assert(Array.isArray(arr));
-  const len = arr.length;
+  assert(Array.isArray(arr), 'Expected an array');
   return (_id) => {
-    assert(typeof _id === 'string');
+    assert(typeof _id === 'string', 'Expected string _id');
+    const len = arr.length;
     if (len === 0) {
       return -1;
     }
@@ -31,20 +30,16 @@ export const findIndex = (arr) => {
     }
     let left = 0;
     let right = len;
-    let mid = Math.floor((right - left) / 2);
     while (left < right) {
-      const index = mid + left;
-      const d = arr[index];
-      if (d._id === _id) {
+      const index = Math.floor((right - left) / 2) + left;
+      const currentId = arr[index]._id;
+      if (currentId === _id) {
         return index;
       }
-      if (_id > d._id) {
+      if (_id > currentId) {
         left = index + 1;
       } else {
         right = index;
-      }
-      if (left < right) {
-        mid = Math.floor((right - left) / 2);
       }
     }
     return -1;
