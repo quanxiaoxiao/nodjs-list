@@ -78,27 +78,9 @@ export const remove = (arr) => {
     if (index === -1) {
       return null;
     }
-    const len = arr.length;
     const currentItem = arr[index];
-    if (index === 0) {
-      return [
-        currentItem,
-        arr.slice(1),
-      ];
-    }
-    if (index === len - 1) {
-      return [
-        currentItem,
-        arr.slice(0, index),
-      ];
-    }
-    return [
-      currentItem,
-      [
-        ...arr.slice(0, index),
-        ...arr.slice(index + 1),
-      ],
-    ];
+    const newArr = arr.filter((d, i) => i !== index);
+    return [currentItem, newArr];
   };
 };
 
