@@ -47,42 +47,38 @@ export const findIndex = (arr) => {
 };
 
 export const findIndexWithInsert = (arr, _id) => {
-  assert(Array.isArray(arr));
+  assert(Array.isArray(arr), 'Expected an array');
+  assert(typeof _id === 'string', 'Expected string _id');
   const len = arr.length;
-  assert(typeof _id === 'string');
   if (len === 0) {
     return 0;
   }
   let left = 0;
   let right = len;
-  let mid = Math.floor((right - left) / 2);
   while (left < right) {
-    const index = mid + left;
-    const d = arr[index];
-    if (d._id === _id) {
+    const index = Math.floor((right - left) / 2) + left;
+    const currentId = arr[index]._id;
+    if (currentId === _id) {
       return index;
     }
-    if (_id > d._id) {
+    if (_id > currentId) {
       left = index + 1;
     } else {
       right = index;
-    }
-    if (left < right) {
-      mid = Math.floor((right - left) / 2);
     }
   }
   return left;
 };
 
 export const remove = (arr) => {
-  assert(Array.isArray(arr));
-  const len = arr.length;
+  assert(Array.isArray(arr), 'Expected an array');
   const find = findIndex(arr);
   return (_id) => {
     const index = find(_id);
     if (index === -1) {
       return null;
     }
+    const len = arr.length;
     const currentItem = arr[index];
     if (index === 0) {
       return [
@@ -107,10 +103,10 @@ export const remove = (arr) => {
 };
 
 export const update = (arr) => {
-  assert(Array.isArray(arr));
-  const len = arr.length;
+  assert(Array.isArray(arr), 'Expected an array');
   const find = findIndex(arr);
   return (_id, fn) => {
+    assert(typeof fn === 'function', 'Expected update function');
     const index = find(_id);
     if (index === -1) {
       return null;
@@ -124,35 +120,16 @@ export const update = (arr) => {
       ...currentItem,
       ...dataUpdated,
     };
-    assert(typeof itemNext._id === 'string' && itemNext._id === currentItem._id);
-    if (index === 0) {
-      return [
-        itemNext,
-        currentItem,
-        [
-          itemNext,
-          ...arr.slice(1),
-        ],
-      ];
-    }
-    if (index === len - 1) {
-      return [
-        itemNext,
-        currentItem,
-        [
-          ...arr.slice(0, index),
-          itemNext,
-        ],
-      ];
-    }
+    assert(
+      typeof itemNext._id === 'string' && itemNext._id === currentItem._id,
+      '_id field cannot be modified',
+    );
+    const newArr = [...arr];
+    newArr[index] = itemNext;
     return [
       itemNext,
       currentItem,
-      [
-        ...arr.slice(0, index),
-        itemNext,
-        ...arr.slice(index + 1),
-      ],
+      newArr,
     ];
   };
 };
